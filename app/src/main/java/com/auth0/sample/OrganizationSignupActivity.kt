@@ -13,18 +13,22 @@ import com.auth0.android.management.UsersAPIClient
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
+import com.auth0.sample.databinding.ActivityIndividualSignupBinding
 import com.auth0.sample.databinding.ActivityMainBinding
+import com.auth0.sample.databinding.ActivityOrganizationSignupBinding
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity() {
+class OrganizationSignupActivity : AppCompatActivity() {
 
     private lateinit var account: Auth0
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityOrganizationSignupBinding
     private var cachedCredentials: Credentials? = null
     private var cachedUserProfile: UserProfile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityOrganizationSignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Set up the account object with the Auth0 application details
         account = Auth0(
@@ -32,37 +36,16 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.com_auth0_domain)
         )
 
-        // Bind the button click with the login action
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.adminButtonLogin.setOnClickListener { loginWithBrowser() }
-        binding.individualButtonSignup.setOnClickListener {
-            val intent = Intent(this, IndividualSignupActivity::class.java)
+        binding.buttonHomepage.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        binding.organizationButtonSignup.setOnClickListener {
-            val intent = Intent(this, OrganizationSignupActivity::class.java)
-            startActivity(intent)
-        }
-//        binding.buttonLogin.setOnClickListener { loginWithBrowser() }
-//        binding.buttonLogout.setOnClickListener { logout() }
-//        binding.buttonGetMetadata.setOnClickListener { getUserMetadata() }
-//        binding.buttonPatchMetadata.setOnClickListener { patchUserMetadata() }
+
+
     }
 
     private fun updateUI() {
-//        binding.buttonLogout.isEnabled = cachedCredentials != null
-//        binding.metadataPanel.isVisible = cachedCredentials != null
-//        binding.buttonLogin.isEnabled = cachedCredentials == null
-//        binding.userProfile.isVisible = cachedCredentials != null
-//
-//        binding.userProfile.text =
-//            "Name: ${cachedUserProfile?.name ?: ""}\n" +
-//                    "Email: ${cachedUserProfile?.email ?: ""}"
-//
-//        if (cachedUserProfile == null) {
-//            binding.inputEditMetadata.setText("")
-//        }
+
     }
 
     private fun loginWithBrowser() {
@@ -124,43 +107,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getUserMetadata() {
-//        // Create the user API client
-//        val usersClient = UsersAPIClient(account, cachedCredentials!!.accessToken!!)
-//
-//        // Get the full user profile
-//        usersClient.getProfile(cachedUserProfile!!.getId()!!)
-//            .start(object : Callback<UserProfile, ManagementException> {
-//                override fun onFailure(exception: ManagementException) {
-//                    showSnackBar("Failure: ${exception.getCode()}")
-//                }
-//
-//                override fun onSuccess(userProfile: UserProfile) {
-//                    cachedUserProfile = userProfile;
-//                    updateUI()
-////
-////                    val country = userProfile.getUserMetadata()["country"] as String?
-////                    binding.inputEditMetadata.setText(country)
-//                }
-//            })
+        // Create the user API client
+        val usersClient = UsersAPIClient(account, cachedCredentials!!.accessToken!!)
+
+        // Get the full user profile
+        usersClient.getProfile(cachedUserProfile!!.getId()!!)
+            .start(object : Callback<UserProfile, ManagementException> {
+                override fun onFailure(exception: ManagementException) {
+                    showSnackBar("Failure: ${exception.getCode()}")
+                }
+
+                override fun onSuccess(userProfile: UserProfile) {
+                    cachedUserProfile = userProfile;
+                    updateUI()
+
+                    val country = userProfile.getUserMetadata()["country"] as String?
+
+                }
+            })
     }
 
     private fun patchUserMetadata() {
-//        val usersClient = UsersAPIClient(account, cachedCredentials!!.accessToken!!)
-////        val metadata = mapOf("country" to binding.inputEditMetadata.text.toString())
-//
-//        usersClient
-//            .updateMetadata(cachedUserProfile!!.getId()!!, metadata)
-//            .start(object : Callback<UserProfile, ManagementException> {
-//                override fun onFailure(exception: ManagementException) {
-//                    showSnackBar("Failure: ${exception.getCode()}")
-//                }
-//
-//                override fun onSuccess(profile: UserProfile) {
-//                    cachedUserProfile = profile
-//                    updateUI()
-//                    showSnackBar("Successful")
-//                }
-//            })
+        val usersClient = UsersAPIClient(account, cachedCredentials!!.accessToken!!)
+
     }
 
     private fun showSnackBar(text: String) {
