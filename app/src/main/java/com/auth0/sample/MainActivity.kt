@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, IndividualSignupActivity::class.java)
             startActivity(intent)
         }
-        binding.organizationButtonSignup.setOnClickListener {
+        binding.buttonOrganizationSignup.setOnClickListener {
             val intent = Intent(this, OrganizationSignupActivity::class.java)
             startActivity(intent)
         }

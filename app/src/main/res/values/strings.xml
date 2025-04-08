@@ -4,12 +4,16 @@
     <string name="com_auth0_client_id">u4p9PJn0nTh3No2k3551YrKNShYJjzg1</string>
     <string name="com_auth0_domain">kevin-chen-development.us.auth0.com</string>
     <string name="com_auth0_scheme">demo</string>
-    <string-array name="specialty_options">
-        <item>Medical (customize in strings.xml)</item>
-        <item>Government</item>
-        <item>Commerical</item>
+    <string-array name="specialty_array">
+        <item>Healthcare (For-Profit)</item>
+        <item>Healthcare (Non-Profit)</item>
+        <item>Federal Government Agency</item>
+        <item>State Government Agency</item>
+        <item>Municipal Agency</item>
+        <item>Commercial (For Profit)</item>
+        <item>Other (Non-Profit)</item>
     </string-array>
-    <string-array name="us_state_abbreviations">
+    <string-array name="state_abbreviation_array">
         <item>AL</item>
         <item>AK</item>
         <item>AZ</item>

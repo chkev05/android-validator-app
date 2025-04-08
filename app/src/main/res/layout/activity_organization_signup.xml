@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -117,7 +120,7 @@
             android:text="Homepage"/>
 
     </LinearLayout>
-
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

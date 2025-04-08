@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -108,18 +111,17 @@
             android:inputType="number"
             android:padding="10dp"/>
         <Button
-            android:id="@+id/button_submit_signup"
+            android:id="@+id/buttonSubmitSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"/>
         <Button
-            android:id="@+id/button_homepage"
+            android:id="@+id/buttonHomepage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Homepage"/>
 
     </LinearLayout>
-
-
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
