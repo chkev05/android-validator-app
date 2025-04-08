@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         // Bind the button click with the login action
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.adminButtonLogin.setOnClickListener { loginWithBrowser() }
-        binding.individualButtonSignup.setOnClickListener {
+        binding.buttonAdminLogin.setOnClickListener { loginWithBrowser() }
+        binding.buttonIndividualSignup.setOnClickListener {
             val intent = Intent(this, IndividualSignupActivity::class.java)
             startActivity(intent)
         }

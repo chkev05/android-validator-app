@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/admin_button_login"
+        android:id="@+id/buttonAdminLogin"
         android:layout_width="240dp"
         android:layout_height="48dp"
         android:layout_marginTop="36dp"
@@ -19,17 +19,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/individual_button_signup"
+        android:id="@+id/buttonIndividualSignup"
         android:layout_width="240dp"
         android:layout_height="48dp"
         android:text="Individual Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/admin_button_login"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdminLogin"
         android:backgroundTint="@color/purple_200" />
 
     <Button
-        android:id="@+id/organization_button_signup"
+        android:id="@+id/buttonOrganizationSignup"
         android:layout_width="240dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/individual_button_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonIndividualSignup" />
 
     <TextView
         android:id="@+id/textView"
@@ -104,7 +104,5 @@
 <!--                android:layout_marginLeft="8dp"/>-->
 <!--        </LinearLayout>-->
 <!--    </LinearLayout>-->
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
