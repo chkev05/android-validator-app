@@ -18,6 +18,24 @@ import com.auth0.android.result.UserProfile
 import com.auth0.sample.databinding.ActivityIndividualSignupBinding
 import com.auth0.sample.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+@Serializable
+data class NewUser(
+    val email: String,
+    val password: String,
+    val connection: String = "Username-Password-Authentication",
+    @SerialName("user_metadata") val userMetadata: Map<String, String>
+)
 
 class IndividualSignupActivity : AppCompatActivity() {
 
@@ -54,4 +72,35 @@ class IndividualSignupActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    // testing
+    // ask if he wants to get it from the backend or just hardcode it?
+    suspend fun createUserInAuth0() {
+        val token = "YOUR_MANAGEMENT_API_TOKEN"
+        val domain = getString(R.string.com_auth0_domain) // like: your-tenant.us.auth0.com
+
+        val client = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
+
+        val newUser = NewUser(
+            email = "test@example.com",
+            password = "StrongPassword123!",
+            userMetadata = mapOf("role" to "admin", "signup_source" to "kotlin-app")
+        )
+
+        val response = client.post("https://$domain/api/v2/users") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $token")
+                append(HttpHeaders.ContentType, "application/json")
+            }
+            setBody(newUser)
+        }
+
+        val responseBody = response.bodyAsText()
+        println("User created: $responseBody")
+    }
+
 }

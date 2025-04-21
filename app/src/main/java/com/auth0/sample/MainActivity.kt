@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.auth0.android.Auth0
+import com.auth0.android.jwt.JWT
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.Callback
 import android.content.Intent
+import android.util.Log
 import com.auth0.android.management.ManagementException
 import com.auth0.android.management.UsersAPIClient
 import com.auth0.android.provider.WebAuthProvider
@@ -44,26 +46,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, OrganizationSignupActivity::class.java)
             startActivity(intent)
         }
-//        binding.buttonLogin.setOnClickListener { loginWithBrowser() }
-//        binding.buttonLogout.setOnClickListener { logout() }
-//        binding.buttonGetMetadata.setOnClickListener { getUserMetadata() }
-//        binding.buttonPatchMetadata.setOnClickListener { patchUserMetadata() }
+
     }
 
-    private fun updateUI() {
-//        binding.buttonLogout.isEnabled = cachedCredentials != null
-//        binding.metadataPanel.isVisible = cachedCredentials != null
-//        binding.buttonLogin.isEnabled = cachedCredentials == null
-//        binding.userProfile.isVisible = cachedCredentials != null
-//
-//        binding.userProfile.text =
-//            "Name: ${cachedUserProfile?.name ?: ""}\n" +
-//                    "Email: ${cachedUserProfile?.email ?: ""}"
-//
-//        if (cachedUserProfile == null) {
-//            binding.inputEditMetadata.setText("")
-//        }
-    }
 
     private fun loginWithBrowser() {
         // Setup the WebAuthProvider, using the custom scheme and scope.
@@ -78,11 +63,40 @@ class MainActivity : AppCompatActivity() {
                     showSnackBar("Failure: ${exception.getCode()}")
                 }
 
+//                override fun onSuccess(credentials: Credentials) {
+//                    cachedCredentials = credentials
+//                    showSnackBar("Success: ${credentials.accessToken}")
+//                    updateUI()
+//                    showUserProfile()
+//                }
                 override fun onSuccess(credentials: Credentials) {
                     cachedCredentials = credentials
-                    showSnackBar("Success: ${credentials.accessToken}")
-                    updateUI()
-                    showUserProfile()
+                    val accessToken = credentials.idToken
+                    val jwt = JWT(accessToken)
+                    val roles = jwt.getClaim("custom_roles").asList(String::class.java)
+                    val userID = jwt.getClaim("sub").asString()
+
+                    Log.d("Auth", "Roles: $roles")
+
+                    if ("Central Application Admin" in roles) {
+                        // Proceed with admin access
+                        Log.d("Auth", "User has admin role!")
+                        // Navigate to admin-specific activity, for example
+                        showSnackBar("Success: has Admin Role")
+                        val intent = Intent(this@MainActivity, AdminPageActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else {
+                        // Handle non-admin access
+                        Log.d("Auth", "User does not have admin role!")
+                        Log.d("Auth", "Roles: $roles $jwt $userID")
+
+                        showSnackBar("Failure: No Admin Role")
+                        logout()
+                    }
+//                    showSnackBar("Success: ${credentials.accessToken}")
+//                    updateUI()
+//                    showUserProfile()
                 }
             })
     }
@@ -95,11 +109,9 @@ class MainActivity : AppCompatActivity() {
                     // The user has been logged out!
                     cachedCredentials = null
                     cachedUserProfile = null
-                    updateUI()
                 }
 
                 override fun onFailure(exception: AuthenticationException) {
-                    updateUI()
                     showSnackBar("Failure: ${exception.getCode()}")
                 }
             })
@@ -118,7 +130,6 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSuccess(profile: UserProfile) {
                     cachedUserProfile = profile;
-                    updateUI()
                 }
             })
     }
