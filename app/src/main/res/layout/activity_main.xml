@@ -34,7 +34,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/purple_200"
-        android:text="Oraganization Sign Up"
+        android:text="Organization Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="@+id/textView"

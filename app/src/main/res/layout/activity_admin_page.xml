@@ -20,17 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- View Reports Button -->
-    <Button
-        android:id="@+id/buttonAdminHomepage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HomePage"
-        android:backgroundTint="@color/purple_500"
-        app:layout_constraintTop_toBottomOf="@id/textViewWelcome"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/buttonIndividualDashboard"
@@ -38,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Individual Dashboard"
         android:backgroundTint="@color/purple_500"
-        app:layout_constraintTop_toBottomOf="@id/buttonAdminHomepage"
+        app:layout_constraintTop_toBottomOf="@id/textViewWelcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />

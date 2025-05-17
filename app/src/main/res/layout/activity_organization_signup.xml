@@ -21,93 +21,254 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="20dp"
             android:padding="10dp"/>
+
+        <!-- Specialty chooser -->
         <Spinner
             android:id="@+id/spinnerSpecialty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editOrganizationName"
+
+        <!-- Organization Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/organizationNameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Organization Name"
-            android:inputType="text"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editNPI"
+            android:visibility="gone"
+            android:hint="Organization Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editOrganizationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- NPI -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/npiInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="National Provider Identified (NPI)"
-            android:inputType="text"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editFEIN"
+            android:visibility="gone"
+            android:hint="National Provider Identified (NPI)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editNPI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- State Department ID -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/stateDepIDInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Federal Emplyer Identification Number (FEIN)"
-            android:inputType="number"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editAddress"
+            android:visibility="gone"
+            android:hint="State Department ID">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editStateDepID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- FEIN -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/feinInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Organization Address Line"
-            android:inputType="text"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editCity"
+            android:visibility="gone"
+            android:hint="Federal Employer Identification Number (FEIN)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editFEIN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Organization Code -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/organizationCodeInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="City"
-            android:inputType="text"
-            android:padding="10dp"/>
-        <Spinner
-            android:id="@+id/spinnerStates"
+            android:visibility="gone"
+            android:hint="Organization code">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editOrgCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Bureau Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bureauNameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editZipcode"
+            android:visibility="gone"
+            android:hint="Bureau Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editBurName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Address -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Zipcode"
-            android:inputType="number"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editTaxID"
+            android:visibility="gone"
+            android:hint="Organization Address Line">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- City -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="State Tax ID"
-            android:inputType="text"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editPhoneNumber"
+            android:visibility="gone"
+            android:hint="City">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- States -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/spinnerStatesInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Organization Contact Phone Number"
-            android:inputType="phone"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editEmail"
+            android:visibility="gone">
+
+            <Spinner
+                android:id="@+id/spinnerStates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Zipcode -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/zipcodeInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Organization Contact Email"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editPassword"
+            android:visibility="gone"
+            android:hint="Zipcode">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editZipcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- State Tax ID -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/taxIDInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/editOrgRepUsername"
+            android:visibility="gone"
+            android:hint="State Tax ID">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTaxID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Organization Contact Phone Number -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneNumberInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Organization Representative Username"
-            android:inputType="text"
-            android:padding="10dp"/>
+            android:visibility="gone"
+            android:hint="Organization Contact Phone Number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Organization Contact Email -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:hint="Organization Contact Email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Organization Representative Username -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/orgRepUsernameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:hint="Organization Representative Username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editOrgRepUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:padding="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/button_submit_signup"
             android:layout_width="match_parent"

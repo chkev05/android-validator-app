@@ -7,11 +7,31 @@ import android.util.Log
 import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.Callback
 import android.content.Intent
+import androidx.lifecycle.lifecycleScope
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
 import com.auth0.sample.databinding.ActivityAdminDashboardBinding
+import kotlinx.serialization.Serializable
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.http.*
+import kotlinx.coroutines.*
+import kotlinx.serialization.json.Json
+import io.ktor.serialization.kotlinx.json.*
 
+@Serializable
+data class User(
+    val email: String,
+    val firstName: String,
+    val lastName: String,
+    val city: String = "",
+    val zipcode: String = "",
+    val address_line_1: String = ""
+)
 
 class AdminDashboardActivity : AppCompatActivity() {
 
@@ -31,6 +51,11 @@ class AdminDashboardActivity : AppCompatActivity() {
             getString(R.string.com_auth0_client_id),
             getString(R.string.com_auth0_domain)
         )
+
+        lifecycleScope.launch {
+            val users = fetchUsers()
+            Log.d("FetchedUsers", users.toString())
+        }
 
 
 
@@ -73,5 +98,22 @@ class AdminDashboardActivity : AppCompatActivity() {
                     Log.d("Auth", "Failure: ${error.getCode()}")
                 }
             })
+    }
+}
+
+private suspend fun fetchUsers(): List<User> {
+    val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true })
+        }
+    }
+
+    return try {
+        client.get("http://10.0.2.2:8000/api/individual_users").body()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        emptyList()
+    } finally {
+        client.close()
     }
 }

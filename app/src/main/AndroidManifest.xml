@@ -21,6 +21,7 @@
         <activity android:name=".OrganizationSignupActivity"> </activity>
         <activity android:name=".AdminPageActivity"> </activity>
         <activity android:name=".AdminDashboardActivity"> </activity>
+        <activity android:name=".SuccessfulSignupActivity"> </activity>
     </application>
 
 </manifest>
