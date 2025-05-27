@@ -8,11 +8,15 @@ import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.Callback
 import android.content.Intent
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.lifecycle.lifecycleScope
 import com.auth0.android.management.ManagementException
 import com.auth0.android.management.UsersAPIClient
 import com.auth0.android.provider.WebAuthProvider
@@ -25,6 +29,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.auth0.sample.signUpUser
+import com.auth0.sample.isGoodPassword
+import  com.auth0.sample.isGoodPhoneNumber
+import com.auth0.sample.isGoodAddress
+import kotlinx.coroutines.launch
 
 class OrganizationSignupActivity : AppCompatActivity() {
 
@@ -55,6 +63,13 @@ class OrganizationSignupActivity : AppCompatActivity() {
         val stateAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, stateItems)
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerStates.adapter = stateAdapter
+
+        // validator stuff
+        val feinEditText = findViewById<TextInputEditText>(R.id.editFEIN)
+        addFEINFormatter(feinEditText)
+        val npiEditText = findViewById<TextInputEditText>(R.id.editNPI)
+        npiEditText.filters = arrayOf(InputFilter.LengthFilter(10))
+        npiEditText.inputType = android.text.InputType.TYPE_CLASS_NUMBER
 
         spinnerSpecialty.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
@@ -118,31 +133,152 @@ class OrganizationSignupActivity : AppCompatActivity() {
         }
 
         binding.buttonSubmitSignup.setOnClickListener {
-            signUpUser(
-                email = "email",
-                password = "password",
-                firstName = "firstname",
-                middleName = "middlename",
-                lastName = "lastname",
-                phoneNumber = "phonenumber",
-                specialtyAuth = spinnerSpecialty.selectedItem.toString(),
-                ssn = "ssn",
-                dateOfBirth = "dob",
-                addressLine1 = "address",
-                city = "city",
-                state = spinnerStates.selectedItem.toString(),
-                zipcode = "zipcode",
-                onResult = { success, message ->
-                    if (success) {
-                        println("✅ Signup successful: $message")
-                        val intent = Intent(this@OrganizationSignupActivity, SuccessfulSignupActivity::class.java)
-                        startActivity(intent)
-                        // redirect when successful
-                    } else {
-                        println("❌ Signup failed: $message")
-                    }
+
+            lifecycleScope.launch {
+
+                val emailLayout = findViewById<TextInputLayout>(R.id.emailInputLayout)
+                val email = findViewById<TextInputEditText>(R.id.editEmail).text.toString()
+
+                val passwordLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
+                val password = findViewById<TextInputEditText>(R.id.editPassword).text.toString()
+
+                val organizationNameLayout =
+                    findViewById<TextInputLayout>(R.id.organizationNameInputLayout)
+                val organizationName = findViewById<TextInputEditText>(R.id.editOrganizationName)
+
+                val phonenumberLayout = findViewById<TextInputLayout>(R.id.phoneNumberInputLayout)
+                val phonenumber =
+                    findViewById<TextInputEditText>(R.id.editPhoneNumber).text.toString()
+
+                val addressLayout = findViewById<TextInputLayout>(R.id.addressInputLayout)
+                val address = findViewById<TextInputEditText>(R.id.editAddress).text.toString()
+
+                val cityLayout = findViewById<TextInputLayout>(R.id.cityInputLayout)
+                val city = findViewById<TextInputEditText>(R.id.editCity).text.toString()
+
+                val zipcodeLayout = findViewById<TextInputLayout>(R.id.zipcodeInputLayout)
+                val zipcode = findViewById<TextInputEditText>(R.id.editZipcode).text.toString()
+
+                val orgRepUsernameLayout =
+                    findViewById<TextInputLayout>(R.id.orgRepUsernameInputLayout)
+                val orgRepUsername = findViewById<TextInputEditText>(R.id.editOrgRepUsername)
+
+                // situational ones
+
+                // Commercial For Profit || Other Non Profit
+                // FEIN
+
+                // Healthcare For Profit || Healthcare Non Profit
+                // NPI FEIN taxID
+
+                // Federal Governmetn Agency
+                // Org Code BureauName
+
+                // State Governmetn Agency || Municipal Agency
+                // statedepid fein
+
+                val feinLayout = findViewById<TextInputLayout>(R.id.feinInputLayout)
+                val fein = findViewById<TextInputEditText>(R.id.editFEIN).text.toString()
+
+                val npiLayout = findViewById<TextInputLayout>(R.id.npiInputLayout)
+                val npi = findViewById<TextInputEditText>(R.id.editNPI).text.toString()
+
+                val taxIDLayout = findViewById<TextInputLayout>(R.id.taxIDInputLayout)
+                val taxID = findViewById<TextInputEditText>(R.id.editTaxID)
+
+                val orgCodeLayout = findViewById<TextInputLayout>(R.id.organizationCodeInputLayout)
+                val orgCode = findViewById<TextInputEditText>(R.id.editOrgCode)
+
+                val bureauNameLayout = findViewById<TextInputLayout>(R.id.bureauNameInputLayout)
+                val bureauName = findViewById<TextInputEditText>(R.id.editBurName)
+
+                val stateDepIDLayout = findViewById<TextInputLayout>(R.id.stateDepIDInputLayout)
+                val stateDepID = findViewById<TextInputEditText>(R.id.editStateDepID)
+
+                var isValid = true
+
+                if (!isGoodFEIN(fein)) {
+                    feinLayout.error = "FEIN must be in format XX-XXXXXXX"
+                    isValid = false
+                    println("Bad fein")
                 }
-            )
+
+                if (!isGoodNPI(npi)) {
+                    npiLayout.error = "NPI must be 10 digits"
+                    isValid = false
+                    println("Bad npi")
+                }
+
+                if (!isGoodPassword(password)) {
+                    passwordLayout.error = "Bad Password"
+                    isValid = false
+                }
+
+                if (!isGoodPhoneNumber(phonenumber)) {
+                    phonenumberLayout.error = "Bad Phone Number"
+                    isValid = false
+                }
+
+                val selectedState = spinnerStates.selectedItem.toString()
+                val addressValid = isGoodAddress(address, city, zipcode, selectedState)
+//                val addressValid = isGoodAddress("160 Broadway", "New York", "10038", "NY")
+                if (!addressValid) {
+                    println("❌ Invalid Address")
+                    addressLayout.error = "Invalid Address"
+                    cityLayout.error = "Invalid City"
+                    zipcodeLayout.error = "Invalid Zipcode"
+                    isValid = false
+                }
+                else {
+                    println("✅ Valid Address")
+                }
+
+//                if (isValid) {
+//                    signUpUser(
+//                        email = email,
+//                        password = password,
+//                        phoneNumber = phonenumber,
+//                        addressLine1 = address,
+//                        city = city,
+//                        state = selectedState,
+//                        zipcode = zipcode,
+//                        orgType = spinnerSpecialty.selectedItem.toString(),
+//                    )
+//                }
+
+                if (isValid) {
+                    signUpUser(
+                        email = "email",
+                        password = "password",
+                        firstName = "firstname",
+                        middleName = "middlename",
+                        lastName = "lastname",
+                        phoneNumber = "phonenumber",
+                        specialtyAuth = spinnerSpecialty.selectedItem.toString(),
+                        orgType = spinnerSpecialty.selectedItem.toString(),
+                        ssn = "ssn",
+                        dateOfBirth = "dob",
+                        addressLine1 = "address",
+                        city = "city",
+                        state = spinnerStates.selectedItem.toString(),
+                        zipcode = "zipcode",
+                        onResult = { success, message ->
+                            if (success) {
+                                println("✅ Signup successful: $message")
+                                val intent = Intent(
+                                    this@OrganizationSignupActivity,
+                                    SuccessfulSignupActivity::class.java
+                                )
+                                startActivity(intent)
+                                // redirect when successful
+                            } else {
+                                println("❌ Signup failed: $message")
+                            }
+                        }
+                    )
+                }
+            }
+
         }
 
         binding.buttonHomepage.setOnClickListener {
@@ -152,4 +288,48 @@ class OrganizationSignupActivity : AppCompatActivity() {
 
 
     }
+
+    fun addFEINFormatter(editText: TextInputEditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            private var isFormatting = false
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+                isFormatting = true
+
+                // Get the raw input and remove any non-digit characters
+                val input = s.toString().replace(Regex("[^\\d]"), "")
+
+                // Apply the FEIN format: XX-XXXXXXX
+                val formatted = when {
+                    input.length <= 2 -> input
+                    input.length <= 9 -> "${input.substring(0, 2)}-${input.substring(2)}"
+                    else -> "${input.substring(0, 2)}-${input.substring(2, 9)}"
+                }
+
+                // Set the formatted text back to the EditText and position the cursor correctly
+                editText.setText(formatted)
+                editText.setSelection(formatted.length)
+
+                isFormatting = false
+            }
+        })
+    }
+
+    // Validation for FEIN (XX-XXXXXXX format)
+    fun isGoodFEIN(fein: String): Boolean {
+        val feinRegex = Regex("^\\d{2}-\\d{7}$")
+        return feinRegex.matches(fein)
+    }
+
+    // Validation for NPI (10 digits long)
+    fun isGoodNPI(npi: String): Boolean {
+        val npiRegex = Regex("^\\d{10}$")
+        return npiRegex.matches(npi)
+    }
+
 }

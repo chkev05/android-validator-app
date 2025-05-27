@@ -19,16 +19,14 @@
             android:layout_height="wrap_content"
             android:text="Organization Sign Up"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="20dp"
-            android:padding="10dp"/>
+            android:textSize="20dp" />
 
         <!-- Specialty chooser -->
         <Spinner
             android:id="@+id/spinnerSpecialty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="10dp"/>
+            android:minHeight="48dp"/>
 
         <!-- Organization Name -->
         <com.google.android.material.textfield.TextInputLayout
@@ -42,8 +40,7 @@
                 android:id="@+id/editOrganizationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -59,8 +56,7 @@
                 android:id="@+id/editNPI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- State Department ID -->
@@ -75,8 +71,7 @@
                 android:id="@+id/editStateDepID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- FEIN -->
@@ -91,8 +86,7 @@
                 android:id="@+id/editFEIN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Organization Code -->
@@ -107,8 +101,7 @@
                 android:id="@+id/editOrgCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Bureau Name -->
@@ -123,8 +116,7 @@
                 android:id="@+id/editBurName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Address -->
@@ -139,8 +131,7 @@
                 android:id="@+id/editAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- City -->
@@ -155,8 +146,7 @@
                 android:id="@+id/editCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- States -->
@@ -185,8 +175,7 @@
                 android:id="@+id/editZipcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- State Tax ID -->
@@ -201,8 +190,7 @@
                 android:id="@+id/editTaxID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Organization Contact Phone Number -->
@@ -217,8 +205,7 @@
                 android:id="@+id/editPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:padding="10dp" />
+                android:inputType="phone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Organization Contact Email -->
@@ -233,8 +220,7 @@
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:padding="10dp" />
+                android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password -->
@@ -249,8 +235,7 @@
                 android:id="@+id/editPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:padding="10dp" />
+                android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Organization Representative Username -->
@@ -265,8 +250,7 @@
                 android:id="@+id/editOrgRepUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

@@ -16,12 +16,15 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:visibility="gone"
+        />
 
     <Button
         android:id="@+id/buttonIndividualSignup"
         android:layout_width="240dp"
         android:layout_height="48dp"
+        android:layout_marginTop="36dp"
         android:text="Individual Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
