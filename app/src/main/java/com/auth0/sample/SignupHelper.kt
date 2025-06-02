@@ -14,18 +14,27 @@ import kotlinx.serialization.json.*
 fun signUpUser(
     email: String,
     password: String,
-    firstName: String,
-    middleName: String,
-    lastName: String,
+    firstName: String? = null,
+    middleName: String = "",
+    lastName: String? = null,
     phoneNumber: String,
     specialtyAuth: String,
-    ssn: String,
-    dateOfBirth: String,
+    ssn: String? = null,
+    dateOfBirth: String? = null,
     addressLine1: String,
     city: String,
     state: String,
     zipcode: String,
     orgType: String? = null,
+    // after this line its all org types
+    organizationName: String? = null,
+    fein: String? = null,
+    npi: String? = null,
+    orgCode: String? = null,
+    bureauName: String? = null,
+    stateDepID: String? = null,
+    repUsername: String? = null,
+    taxID: String? = null,
     backendUrl: String = "http://10.0.2.2:8000/signup",
     onResult: (Boolean, String) -> Unit
 ) {
@@ -44,42 +53,84 @@ fun signUpUser(
         put("city", city)
         put("state", state)
         put("zipcode", zipcode)
+        if (!orgType.isNullOrBlank()) {
+            put("org_type", orgType)
+            put("org_name", organizationName)
 
-        orgType?.let { organizationType ->
-            put("org_type", organizationType)
-            put("org_name", "orgName")
-
-            when (organizationType) {
+            when (orgType) {
                 in listOf("Commercial (For Profit)", "Other (Non-Profit)") -> {
-                    put("fein", "fein") // Example of adding hospital-specific field
+                    put("fein", fein)
+                    put("taxID", taxID)
                 }
                 in listOf("Healthcare (For-Profit)", "Healthcare (Non-Profit)") -> {
-                    put("npi", "fein")
-                    put("fein", "fein")
-                    put("taxID", "fein")
+                    put("npi", npi)
+                    put("fein", fein)
+                    put("taxID", taxID)
                 }
                 "Federal Government Agency" -> {
-                    put("orgCode", "fein")
-                    put("burName", "fein")
+                    put("orgCode", orgCode)
+                    put("burName", bureauName)
                 }
                 in listOf("State Government Agency", "Municipal Agency") -> {
-                    put("stateDepID", "fein")
-                    put("fein", "fein")
-                }
-                else -> {
-                    // Additional conditions for other org types if needed
+                    put("stateDepID", stateDepID)
+                    put("fein", fein)
                 }
             }
-        } ?: run {
-            // This block will execute if orgType is null
+        } else {
             put("first_name", firstName)
             put("middle_name", middleName)
             put("last_name", lastName)
             put("ssn", ssn)
             put("date_of_birth", dateOfBirth)
         }
-
     }
+
+//    val jsonPayload = buildJsonObject {
+//        put("email", email)
+//        put("password", password)
+//        put("phone_number", phoneNumber)
+//        put("specialty_auth", specialtyAuth)
+//        put("address_line_1", addressLine1)
+//        put("city", city)
+//        put("state", state)
+//        put("zipcode", zipcode)
+//
+//        orgType?.let { organizationType ->
+//            put("org_type", organizationType)
+//            put("org_name", organizationName)
+//
+//            when (organizationType) {
+//                in listOf("Commercial (For Profit)", "Other (Non-Profit)") -> {
+//                    put("fein", fein)
+//                    put("taxID", taxID)
+//                }
+//                in listOf("Healthcare (For-Profit)", "Healthcare (Non-Profit)") -> {
+//                    put("npi", npi)
+//                    put("fein", fein)
+//                    put("taxID", taxID)
+//                }
+//                "Federal Government Agency" -> {
+//                    put("orgCode", orgCode)
+//                    put("burName", bureauName)
+//                }
+//                in listOf("State Government Agency", "Municipal Agency") -> {
+//                    put("stateDepID", stateDepID)
+//                    put("fein", fein)
+//                }
+//                else -> {
+//                    // Additional conditions for other org types if needed
+//                }
+//            }
+//        } ?: run {
+//            // This block will execute if orgType is null
+//            put("first_name", firstName)
+//            put("middle_name", middleName)
+//            put("last_name", lastName)
+//            put("ssn", ssn)
+//            put("date_of_birth", dateOfBirth)
+//        }
+//
+//    }
 
 //    // edit this to chagne depending on org or individaul
 //    val jsonPayload1 = buildJsonObject {

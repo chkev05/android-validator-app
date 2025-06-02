@@ -111,6 +111,7 @@ class OrganizationSignupActivity : AppCompatActivity() {
 
                 if (selectedItem == "Commercial (For Profit)" || selectedItem == "Other (Non-Profit)") {
                     findViewById<TextInputLayout>(R.id.feinInputLayout).visibility = View.VISIBLE
+                    findViewById<TextInputLayout>(R.id.taxIDInputLayout).visibility = View.VISIBLE
                 }
                 else if (selectedItem == "Healthcare (For-Profit)" || selectedItem == "Healthcare (Non-Profit)") {
                     findViewById<TextInputLayout>(R.id.npiInputLayout).visibility = View.VISIBLE
@@ -142,9 +143,8 @@ class OrganizationSignupActivity : AppCompatActivity() {
                 val passwordLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
                 val password = findViewById<TextInputEditText>(R.id.editPassword).text.toString()
 
-                val organizationNameLayout =
-                    findViewById<TextInputLayout>(R.id.organizationNameInputLayout)
-                val organizationName = findViewById<TextInputEditText>(R.id.editOrganizationName)
+                val organizationNameLayout = findViewById<TextInputLayout>(R.id.organizationNameInputLayout)
+                val organizationName = findViewById<TextInputEditText>(R.id.editOrganizationName).text.toString()
 
                 val phonenumberLayout = findViewById<TextInputLayout>(R.id.phoneNumberInputLayout)
                 val phonenumber =
@@ -184,29 +184,54 @@ class OrganizationSignupActivity : AppCompatActivity() {
                 val npi = findViewById<TextInputEditText>(R.id.editNPI).text.toString()
 
                 val taxIDLayout = findViewById<TextInputLayout>(R.id.taxIDInputLayout)
-                val taxID = findViewById<TextInputEditText>(R.id.editTaxID)
+                val taxID = findViewById<TextInputEditText>(R.id.editTaxID).text.toString()
 
                 val orgCodeLayout = findViewById<TextInputLayout>(R.id.organizationCodeInputLayout)
-                val orgCode = findViewById<TextInputEditText>(R.id.editOrgCode)
+                val orgCode = findViewById<TextInputEditText>(R.id.editOrgCode).text.toString()
 
                 val bureauNameLayout = findViewById<TextInputLayout>(R.id.bureauNameInputLayout)
-                val bureauName = findViewById<TextInputEditText>(R.id.editBurName)
+                val bureauName = findViewById<TextInputEditText>(R.id.editBurName).text.toString()
 
                 val stateDepIDLayout = findViewById<TextInputLayout>(R.id.stateDepIDInputLayout)
-                val stateDepID = findViewById<TextInputEditText>(R.id.editStateDepID)
+                val stateDepID = findViewById<TextInputEditText>(R.id.editStateDepID).text.toString()
 
                 var isValid = true
 
-                if (!isGoodFEIN(fein)) {
-                    feinLayout.error = "FEIN must be in format XX-XXXXXXX"
-                    isValid = false
-                    println("Bad fein")
+                var organization = spinnerSpecialty.selectedItem.toString()
+
+                // FEIN Check
+                if (organization == "Commercial (For Profit)" || organization == "Other (Non-Profit)" ||
+                    organization == "Healthcare (For-Profit)" || organization == "Healthcare (Non-Profit)" ||
+                    organization == "State Government Agency" || organization == "Municipal Agency") {
+                    if (!isGoodFEIN(fein)) {
+                        feinLayout.error = "FEIN must be in format XX-XXXXXXX"
+                        isValid = false
+                        println("Bad fein")
+                    }
+                }
+                // NPI Check
+                if (organization == "Healthcare (For-Profit)" || organization == "Healthcare (Non-Profit)") {
+                    if (!isGoodNPI(npi)) {
+                        npiLayout.error = "NPI must be 10 digits"
+                        isValid = false
+                        println("Bad npi")
+                    }
                 }
 
-                if (!isGoodNPI(npi)) {
-                    npiLayout.error = "NPI must be 10 digits"
-                    isValid = false
-                    println("Bad npi")
+                // TaxID Check
+                if (organization == "Commercial (For Profit)" || organization == "Other (Non-Profit)" ||
+                    organization == "Healthcare (For-Profit)" || organization == "Healthcare (Non-Profit)") {
+
+                }
+
+                // StateDepID Check
+                if (organization == "State Government Agency" || organization == "Municipal Agency") {
+
+                }
+
+                // Bur Name and Org Code Check
+                if (organization == "Federal Government Agency") {
+
                 }
 
                 if (!isGoodPassword(password)) {
@@ -233,35 +258,24 @@ class OrganizationSignupActivity : AppCompatActivity() {
                     println("✅ Valid Address")
                 }
 
-//                if (isValid) {
-//                    signUpUser(
-//                        email = email,
-//                        password = password,
-//                        phoneNumber = phonenumber,
-//                        addressLine1 = address,
-//                        city = city,
-//                        state = selectedState,
-//                        zipcode = zipcode,
-//                        orgType = spinnerSpecialty.selectedItem.toString(),
-//                    )
-//                }
-
                 if (isValid) {
                     signUpUser(
-                        email = "email",
-                        password = "password",
-                        firstName = "firstname",
-                        middleName = "middlename",
-                        lastName = "lastname",
-                        phoneNumber = "phonenumber",
-                        specialtyAuth = spinnerSpecialty.selectedItem.toString(),
+                        organizationName = organizationName,
+                        email = email,
+                        password = password,
+                        phoneNumber = phonenumber,
+                        addressLine1 = address,
+                        city = city,
+                        state = selectedState,
+                        zipcode = zipcode,
                         orgType = spinnerSpecialty.selectedItem.toString(),
-                        ssn = "ssn",
-                        dateOfBirth = "dob",
-                        addressLine1 = "address",
-                        city = "city",
-                        state = spinnerStates.selectedItem.toString(),
-                        zipcode = "zipcode",
+                        specialtyAuth = spinnerSpecialty.selectedItem.toString(),
+                        fein = fein,
+                        npi = npi,
+                        orgCode = orgCode,
+                        bureauName = bureauName,
+                        stateDepID = stateDepID,
+                        taxID = taxID,
                         onResult = { success, message ->
                             if (success) {
                                 println("✅ Signup successful: $message")
