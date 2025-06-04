@@ -66,7 +66,9 @@ class OrganizationSignupActivity : AppCompatActivity() {
 
         // validator stuff
         val feinEditText = findViewById<TextInputEditText>(R.id.editFEIN)
+        val orgCodeEditText = findViewById<TextInputEditText>(R.id.editOrgCode)
         addFEINFormatter(feinEditText)
+        addOrgCodeFormatter(orgCodeEditText)
         val npiEditText = findViewById<TextInputEditText>(R.id.editNPI)
         npiEditText.filters = arrayOf(InputFilter.LengthFilter(10))
         npiEditText.inputType = android.text.InputType.TYPE_CLASS_NUMBER
@@ -221,17 +223,34 @@ class OrganizationSignupActivity : AppCompatActivity() {
                 // TaxID Check
                 if (organization == "Commercial (For Profit)" || organization == "Other (Non-Profit)" ||
                     organization == "Healthcare (For-Profit)" || organization == "Healthcare (Non-Profit)") {
-
+                    if (taxID.isEmpty()) {
+                        taxIDLayout.error = "Missing Tax ID"
+                        isValid = false
+                        println("Bad Tax ID")
+                    }
                 }
 
                 // StateDepID Check
                 if (organization == "State Government Agency" || organization == "Municipal Agency") {
-
+                    if (stateDepID.isEmpty()) {
+                        stateDepIDLayout.error = "Missing StateDepID"
+                        isValid = false
+                        println("Bad State Dep ID")
+                    }
                 }
 
                 // Bur Name and Org Code Check
                 if (organization == "Federal Government Agency") {
-
+                    if (bureauName.isEmpty()) {
+                        stateDepIDLayout.error = "Missing Bureau Name"
+                        isValid = false
+                        println("Missing Bureau Name")
+                    }
+                    if (!isGoodOrgCode(orgCode)) {
+                        orgCodeLayout.error = "Bad Org Code"
+                        isValid = false
+                        println("Bad Org code")
+                    }
                 }
 
                 if (!isGoodPassword(password)) {
@@ -334,6 +353,32 @@ class OrganizationSignupActivity : AppCompatActivity() {
         })
     }
 
+    fun addOrgCodeFormatter(editText: TextInputEditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            private var isFormatting = false
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting || s == null) return
+                isFormatting = true
+
+                // Strip to alphanumeric only
+                val input = s.toString().replace(Regex("[^\\d]"), "")
+
+                // Truncate to 10 characters max
+                val trimmed = if (input.length > 10) input.substring(0, 10) else input
+
+                editText.setText(trimmed)
+                editText.setSelection(trimmed.length)
+
+                isFormatting = false
+            }
+        })
+    }
+
     // Validation for FEIN (XX-XXXXXXX format)
     fun isGoodFEIN(fein: String): Boolean {
         val feinRegex = Regex("^\\d{2}-\\d{7}$")
@@ -344,6 +389,11 @@ class OrganizationSignupActivity : AppCompatActivity() {
     fun isGoodNPI(npi: String): Boolean {
         val npiRegex = Regex("^\\d{10}$")
         return npiRegex.matches(npi)
+    }
+
+    fun isGoodOrgCode(code: String): Boolean {
+        val npiRegex = Regex("^\\d{10}$")
+        return npiRegex.matches(code)
     }
 
 }
