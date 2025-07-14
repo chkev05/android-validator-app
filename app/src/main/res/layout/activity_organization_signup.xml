@@ -101,7 +101,8 @@
                 android:id="@+id/editOrgCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:maxLength="12"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Bureau Name -->
@@ -116,7 +117,7 @@
                 android:id="@+id/editBurName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Address -->
@@ -175,7 +176,8 @@
                 android:id="@+id/editZipcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:maxLength="5"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- State Tax ID -->
@@ -190,7 +192,8 @@
                 android:id="@+id/editTaxID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="15"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Organization Contact Phone Number -->

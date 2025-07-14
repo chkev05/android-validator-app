@@ -67,22 +67,15 @@ class IndividualSignupActivity : AppCompatActivity() {
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerStates.adapter = stateAdapter
 
-        // email watcher
+        // filters
+        setEmailCharacterFilter(findViewById<TextInputEditText>(R.id.editEmail))
+        setPasswordCharacterFilter(findViewById<TextInputEditText>(R.id.editPassword))
+        setCharacterFilter(findViewById<TextInputEditText>(R.id.editFirstName), "a-zA-Z \\-'")
+        setCharacterFilter(findViewById<TextInputEditText>(R.id.editMiddleName), "a-zA-Z \\-'")
+        setCharacterFilter(findViewById<TextInputEditText>(R.id.editLastName), "a-zA-Z \\-'")
 
-//        emailEditText.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//                val email = s.toString()
-//                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                    emailLayout.error = "Invalid email address"
-//                } else {
-//                    emailLayout.error = null
-//                }
-//            }
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//        })
-
-        // password checker
+        setCharacterFilter(findViewById<TextInputEditText>(R.id.editAddress), "A-Za-z0-9 \\-")
+        setCharacterFilter(findViewById<TextInputEditText>(R.id.editCity), "A-Za-z \\-")
 
         addPhoneFormatter(findViewById<TextInputEditText>(R.id.editPhoneNumber))
         addSSNFormatter(findViewById<TextInputEditText>(R.id.editSSN))
@@ -178,18 +171,42 @@ class IndividualSignupActivity : AppCompatActivity() {
 //                        isValid = false
 //                    }
 //                }
+//                val selectedState = spinnerStates.selectedItem.toString()
+//                println("Calling isGoodAddress")
+//                val addressValid = isGoodAddress(address, city, zipcode, selectedState)
+//                println("Result from isGoodAddress: $addressValid")
+////
+////                lifecycleScope.launch {
+////                    val valid = isGoodAddress(address, city, zipcode, selectedState)
+////                    println("Result from isGoodAddress 4: $valid")
+////                }
+////                val addressValid = isGoodAddress("160 Broadway", "New York", "10038", "NY")
+//                if (!addressValid) {
+//                    println("❌ Invalid Address")
+//                    addressLayout.error = "Invalid Address"
+//                    cityLayout.error = "Invalid City"
+//                    zipcodeLayout.error = "Invalid Zipcode"
+//                    isValid = false
+//                }
+//                else {
+//                    println("✅ Valid Address")
+//                }
                 val selectedState = spinnerStates.selectedItem.toString()
-                val addressValid = isGoodAddress(address, city, zipcode, selectedState)
-//                val addressValid = isGoodAddress("160 Broadway", "New York", "10038", "NY")
-                if (!addressValid) {
-                    println("❌ Invalid Address")
-                    addressLayout.error = "Invalid Address"
-                    cityLayout.error = "Invalid City"
-                    zipcodeLayout.error = "Invalid Zipcode"
-                    isValid = false
-                }
-                else {
-                    println("✅ Valid Address")
+                println("Calling isGoodAddress")
+
+                lifecycleScope.launch {
+                    val addressValid = isGoodAddress(address, city, zipcode, selectedState)
+                    println("Result from isGoodAddress: $addressValid")
+
+                    if (!addressValid) {
+                        println("❌ Invalid Address")
+                        addressLayout.error = "Invalid Address"
+                        cityLayout.error = "Invalid City"
+                        zipcodeLayout.error = "Invalid Zipcode"
+                        isValid = false  // make sure `isValid` is declared in the outer scope
+                    } else {
+                        println("✅ Valid Address")
+                    }
                 }
 
                 // SSN Check
@@ -332,9 +349,9 @@ class IndividualSignupActivity : AppCompatActivity() {
             private fun formatPhoneNumber(digits: String): String {
                 return when (digits.length) {
                     in 0..3 -> digits
-                    in 4..6 -> "${digits.substring(0, 3)}-${digits.substring(3)}"
-                    in 7..10 -> "${digits.substring(0, 3)}-${digits.substring(3, 6)}-${digits.substring(6)}"
-                    else -> "${digits.substring(0, 3)}-${digits.substring(3, 6)}-${digits.substring(6, 10)}"
+                    in 4..6 -> "(${digits.substring(0, 3)}) ${digits.substring(3)}"
+                    in 7..10 -> "(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6)}"
+                    else -> "(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6, 10)}"
                 }
             }
         })
@@ -386,7 +403,7 @@ class IndividualSignupActivity : AppCompatActivity() {
 
     fun addDOBFormatter(editText: TextInputEditText, context: Context) {
         val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
 
         // Add a click listener to open DatePicker dialog
         editText.setOnClickListener {
@@ -439,10 +456,10 @@ class IndividualSignupActivity : AppCompatActivity() {
 
             private fun formatDOB(digits: String): String {
                 return when (digits.length) {
-                    in 0..4 -> digits
-                    in 5..6 -> "${digits.substring(0, 4)}-${digits.substring(4)}"
-                    in 7..8 -> "${digits.substring(0, 4)}-${digits.substring(4, 6)}-${digits.substring(6)}"
-                    else -> "${digits.substring(0, 4)}-${digits.substring(4, 6)}-${digits.substring(6, 8)}"
+                    in 0..2 -> digits
+                    in 3..4 -> "${digits.substring(0, 2)}-${digits.substring(2)}"
+                    in 5..8 -> "${digits.substring(0, 2)}-${digits.substring(2, 4)}-${digits.substring(4)}"
+                    else -> "${digits.substring(0, 2)}-${digits.substring(2, 4)}-${digits.substring(4, 8)}"
                 }
             }
         })
