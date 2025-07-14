@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Auth0 WebAuth KT</string>
 
-    <string name="com_auth0_client_id">u4p9PJn0nTh3No2k3551YrKNShYJjzg1</string>
-    <string name="com_auth0_domain">kevin-chen-development.us.auth0.com</string>
+    <string name="com_auth0_client_id"></string>
+    <string name="com_auth0_domain"></string>
     <string name="com_auth0_scheme">demo</string>
     <string-array name="specialty_array">
         <item>Healthcare (For-Profit)</item>
